@@ -1,0 +1,16 @@
+{% extends "tienda/base.html" %}
+{% block title %}Pedido # {{pedido.id}} {% endblock %}
+
+{% block content %}
+<h1>Pedido # {{pedido.id}}</h1>
+<p><b>Cliente:</b> {{ pedido.cliente.nombre }}</p>
+<p><b>Estado:</b> {{ pedido.estado }}</p>
+<h3>Productos</h3>
+<ul>
+    {% for p in pedido.productos.all %}
+    <li>{{ p.nombre }} -${{ p.precio|floatformat:2 }}</li>
+    {% endfor %}
+</ul>
+
+
+{% endblock %}

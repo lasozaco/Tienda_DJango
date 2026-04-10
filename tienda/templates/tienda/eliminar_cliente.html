@@ -1,0 +1,14 @@
+{% extends "tienda/base.html" %}
+{% block title %}Eliminar Cliente{% endblock %}
+
+{% block content %}
+<h1>¿Estás seguro de eliminar a {{ cliente.nombre }}?</h1>
+<p>Esta acción no se puede deshacer y borrará todos sus pedidos asociados.</p>
+
+<form method="POST">
+    {% csrf_token %}
+    <button type="submit" class="btn primary">Sí, eliminar definitivamente</button>
+</form>
+
+<p><a href="{% url 'tienda:lista_clientes' %}" class="btn primary" >No, cancelar</a></p>
+{% endblock %}

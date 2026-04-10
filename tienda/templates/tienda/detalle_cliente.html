@@ -1,0 +1,37 @@
+{% extends "tienda/base.html" %}
+
+{% block title %}Cliente: {{ cliente.nombre }}{% endblock %}
+
+{% block content %}
+    <h1>{{ cliente.nombre }}</h1>
+    <p><strong>Correo electrónico:</strong> {{ cliente.correo }}</p>
+    <p><strong>Fecha de registro:</strong> {{ cliente.fecha_registro|date:"d/m/Y H:i" }}</p>
+    <p><strong>Estado:</strong> {% if cliente.activo %}Activo{% else %}Inactivo{% endif %}</p>
+
+    <hr>
+
+    <h3>Historial de Pedidos</h3>
+    <ul>
+        {% for p in pedidos %}
+            <li>
+                <a href="{% url 'tienda:detalle_pedido' p.pk %}">
+                    Pedido #{{ p.id }}
+                </a> 
+                - Estado: {{ p.estado }} 
+                - Fecha: {{ p.fecha|date:"d/m/Y" }}
+            </li>
+        {% empty %}
+            <li>Este cliente aún no ha realizado pedidos.</li>
+        {% endfor %}
+    </ul>
+
+    <hr>
+    
+    <p>
+        <a href="{% url 'tienda:editar_cliente' cliente.pk %}" class="btn primary">Editar</a> | 
+        <a href="{% url 'tienda:eliminar_cliente' cliente.pk %}" class="btn primary">Eliminar cliente</a>
+    </p>
+    <p>
+        <a href="{% url 'tienda:lista_clientes' %}" class="btn primary">Volver a la lista de clientes</a>
+    </p>
+{% endblock %}
