@@ -1,6 +1,5 @@
 from django.db import models
 
-from django.db import models
 
 class Cliente(models.Model):
     nombre = models.CharField(max_length=120)
@@ -29,9 +28,21 @@ class Pedido(models.Model):
     ]
 
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name="pedidos")
-    productos = models.ManyToManyField(Producto, related_name="pedidos")
     estado = models.CharField(max_length=10, choices=ESTADOS, default="CREADO")
     fecha = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Pedido #{self.pk} - {self.cliente.nombre} ({self.estado})"
+    
+class PedidoItem(models.Model):
+        pedido = models.ForeignKey(Pedido, on_delete=models.CASCADE, related_name="items")
+        producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name="items")
+        cantidad = models.PositiveBigIntegerField(default=1)
+        precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
+
+        class Meta:
+            '''
+            No se permitirá que exitan dos filas con la misma combinación de pedido y producto.
+            '''
+            unique_together= ("pedido", "producto")
+

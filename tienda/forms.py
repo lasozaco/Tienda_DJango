@@ -1,6 +1,9 @@
 from django import forms
+from django.forms import inlineformset_factory
 from .models import Producto
-from .models import Cliente
+from .models import Cliente, Pedido, PedidoItem
+
+
 
 class ProductoForm(forms.ModelForm):
     class Meta:
@@ -36,3 +39,26 @@ class ClienteForm(forms.ModelForm):
             "correo": forms.EmailInput(attrs={"placeholder": "ejemplo@correo.com"}),
         
         }
+
+class PedidoSimpleForm(forms.ModelForm):
+    class Meta:
+        model = Pedido
+        fields = ["cliente", "estado"]
+
+class PedidoItemForm(forms.ModelForm):
+    class Meta:
+        model = PedidoItem
+        fields = ["producto", "cantidad", "precio_unitario"]
+        widgets = {
+            "cantidad": forms.NumberInput(attrs={"min": "1", "step": "1"}),
+            "precio_unitarios": forms.NumberInput(attrs={"min": "0", "step": "0.01"}),
+        }
+
+PedidoItemFormSet = inlineformset_factory(
+    parent_model=Pedido,
+    model=PedidoItem,
+    form=PedidoItemForm,
+    extra=1,              #cuantas filas "vacias" mostrar por defecto
+    can_delete=True #permitir borrar filas
+
+)
