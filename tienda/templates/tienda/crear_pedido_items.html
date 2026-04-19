@@ -1,6 +1,6 @@
 {%extends "tienda/base.html" %}
 {% block title%} Nuevo pedido {%endblock%}
-{%block content%}
+{%block content %}
 
 <h1> Nuevo pedido </h1>
 <form method="post">
@@ -26,3 +26,5 @@
     <a href="{% url 'tienda:lista_pedidos' %}"> Cancelar </a>
     
 </form>
+
+{% endblock %} 

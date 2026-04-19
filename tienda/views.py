@@ -69,16 +69,16 @@ def crear_pedido_items(request):
         pedido_form = PedidoSimpleForm(request.POST)
         if pedido_form.is_valid():
             pedido = pedido_form.save()
-            formset = PedidoItemsFormSet(request.POST, instance=pedido)
+            formset = PedidoItemFormSet(request.POST, instance=pedido)
             if formset.is_valid():
                 formset.save()
                 return redirect("tienda:detalle_pedido", pk=pedido.pk)
         else:
             pedido = Pedido()
-            formset = PedidoItemsFormSet(request.POST, instance=pedido)
+            formset = PedidoItemFormSet(request.POST, instance=pedido)
     else:
         pedido_form = PedidoSimpleForm()
-        formset = PedidoItemsFormSet()
+        formset = PedidoItemFormSet()
 
     productos = Producto.objects.all()
     productos_dict = {str(p.id): float(p.precio) for p in productos}
