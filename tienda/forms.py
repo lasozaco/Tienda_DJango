@@ -25,7 +25,7 @@ class ProductoForm(forms.ModelForm):
 
     def clean_precio(self):
         # Si el precio es negativo o cero, se lanza una excepción.
-        precio = self.cleanedd_data.get("precio")
+        precio = self.cleaned_data.get("precio")
         if precio is not None and precio <= 0:
             raise forms.ValidationError("El precio debe ser mayor que cero.")
         return precio
